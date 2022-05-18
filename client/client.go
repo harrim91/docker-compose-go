@@ -11,9 +11,9 @@ import (
 )
 
 // New returns a new default ComposeClient
-func New(config *Config) *ComposeClient {
+func New(opts *GlobalOptions) *ComposeClient {
 	return &ComposeClient{
-		Config: config,
+		GlobalOptions: opts,
 		NewCmd: func() Cmd {
 			return cmd.New()
 		},
@@ -22,8 +22,8 @@ func New(config *Config) *ComposeClient {
 
 // ComposeClient is used for executing Docker Compose commands. It should be created with `New`.
 type ComposeClient struct {
-	Config *Config
-	NewCmd func() Cmd
+	GlobalOptions *GlobalOptions
+	NewCmd        func() Cmd
 }
 
 type Cmd interface {
@@ -32,10 +32,10 @@ type Cmd interface {
 	Run(command string) (<-chan error, error)
 }
 
-// Config represents the global configuration options for the ComposeClient
+// GlobalOptions represents the global configuration options for the ComposeClient
 //
 // https://docs.docker.com/compose/reference/
-type Config struct {
+type GlobalOptions struct {
 	// Specify alternate compose file(s) (default: docker-compose.yml)
 	Files []string
 
@@ -79,11 +79,11 @@ type Config struct {
 	Compatibility *bool
 }
 
-func (c *ComposeClient) globalFlags(overrides ...*Config) string {
+func (c *ComposeClient) globalFlags(overrides ...*GlobalOptions) string {
 	flags := ""
 
-	if c.Config != nil {
-		for _, file := range c.Config.Files {
+	if c.GlobalOptions != nil {
+		for _, file := range c.GlobalOptions.Files {
 			flags = fmt.Sprintf("%s --file %s", flags, file)
 		}
 	}
@@ -94,8 +94,8 @@ func (c *ComposeClient) globalFlags(overrides ...*Config) string {
 		}
 	}
 
-	if c.Config != nil {
-		for _, profile := range c.Config.Profiles {
+	if c.GlobalOptions != nil {
+		for _, profile := range c.GlobalOptions.Profiles {
 			flags = fmt.Sprintf("%s --profile %s", flags, profile)
 		}
 	}
@@ -120,18 +120,18 @@ func (c *ComposeClient) globalFlags(overrides ...*Config) string {
 		compatibility    *bool
 	)
 
-	if c.Config != nil {
-		projectName = c.Config.ProjectName
-		verbose = c.Config.Verbose
-		noANSI = c.Config.NoANSI
-		host = c.Config.Host
-		tls = c.Config.TLS
-		tlsCACert = c.Config.TLSCACert
-		tlsCert = c.Config.TLSCert
-		tlsKey = c.Config.TLSKey
-		tlsVerify = c.Config.TLSVerify
-		projectDirectory = c.Config.ProjectDirectory
-		compatibility = c.Config.Compatibility
+	if c.GlobalOptions != nil {
+		projectName = c.GlobalOptions.ProjectName
+		verbose = c.GlobalOptions.Verbose
+		noANSI = c.GlobalOptions.NoANSI
+		host = c.GlobalOptions.Host
+		tls = c.GlobalOptions.TLS
+		tlsCACert = c.GlobalOptions.TLSCACert
+		tlsCert = c.GlobalOptions.TLSCert
+		tlsKey = c.GlobalOptions.TLSKey
+		tlsVerify = c.GlobalOptions.TLSVerify
+		projectDirectory = c.GlobalOptions.ProjectDirectory
+		compatibility = c.GlobalOptions.Compatibility
 	}
 
 	for _, override := range overrides {
@@ -232,7 +232,7 @@ func (c *ComposeClient) globalFlags(overrides ...*Config) string {
 // stdout and stderr from the underlying docker compose processes are written to the given io.Writers
 //
 // Users would normally use of one of the specific command methods (e.g. Up, Down)
-func (client *ComposeClient) RunCommand(command, flags string, stdout, stderr io.Writer, overrides ...*Config) (<-chan error, error) {
+func (client *ComposeClient) RunCommand(command, flags string, stdout, stderr io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {
 	cmd := client.NewCmd()
 
 	if stdout != nil {
@@ -249,7 +249,7 @@ func (client *ComposeClient) RunCommand(command, flags string, stdout, stderr io
 // RunQuery executes the given docker compose query, and returns the returned JSON byte array.
 //
 // Users would normally use of one of the specific query methods (e.g. Version)
-func (client *ComposeClient) RunQuery(command, flags string, overrides ...*Config) ([]byte, error) {
+func (client *ComposeClient) RunQuery(command, flags string, overrides ...*GlobalOptions) ([]byte, error) {
 	var stdout bytes.Buffer
 	var result []byte
 

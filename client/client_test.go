@@ -84,7 +84,7 @@ func TestClientConfigFiles(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Files: []string{
 				"file1",
 				"file2",
@@ -106,7 +106,7 @@ func TestClientOverrideFiles(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Files: []string{
 				"file1",
 				"file2",
@@ -119,7 +119,7 @@ func TestClientOverrideFiles(t *testing.T) {
 
 	cmd.On("Run", "docker compose --file file1 --file file2 --file file3 foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		Files: []string{
 			"file3",
 		},
@@ -132,7 +132,7 @@ func TestClientConfigProfiles(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Profiles: []string{
 				"profile1",
 				"profile2",
@@ -154,7 +154,7 @@ func TestClientOverrideProfiles(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Profiles: []string{
 				"profile1",
 				"profile2",
@@ -167,7 +167,7 @@ func TestClientOverrideProfiles(t *testing.T) {
 
 	cmd.On("Run", "docker compose --profile profile1 --profile profile2 --profile profile3 foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		Profiles: []string{
 			"profile3",
 		},
@@ -180,7 +180,7 @@ func TestClientConfigProjectName(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			ProjectName: "my-project",
 		},
 		NewCmd: func() client.Cmd {
@@ -199,7 +199,7 @@ func TestClientOverrideProjectName(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			ProjectName: "my-project",
 		},
 		NewCmd: func() client.Cmd {
@@ -209,7 +209,7 @@ func TestClientOverrideProjectName(t *testing.T) {
 
 	cmd.On("Run", "docker compose --project-name override-project-name foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		ProjectName: "override-project-name",
 	})
 
@@ -221,7 +221,7 @@ func TestClientConfigVerbose(t *testing.T) {
 	v := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Verbose: &v,
 		},
 		NewCmd: func() client.Cmd {
@@ -242,7 +242,7 @@ func TestClientOverrideVerbose(t *testing.T) {
 	v := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Verbose: &v,
 		},
 		NewCmd: func() client.Cmd {
@@ -254,7 +254,7 @@ func TestClientOverrideVerbose(t *testing.T) {
 
 	ov := false
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		Verbose: &ov,
 	})
 
@@ -266,7 +266,7 @@ func TestClientConfigNoANSI(t *testing.T) {
 	noAnsi := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			NoANSI: &noAnsi,
 		},
 		NewCmd: func() client.Cmd {
@@ -287,7 +287,7 @@ func TestClientOverrideNoANSI(t *testing.T) {
 	noAnsi := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			NoANSI: &noAnsi,
 		},
 		NewCmd: func() client.Cmd {
@@ -299,7 +299,7 @@ func TestClientOverrideNoANSI(t *testing.T) {
 
 	override := false
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		NoANSI: &override,
 	})
 
@@ -310,7 +310,7 @@ func TestClientConfigHost(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Host: "my-host",
 		},
 		NewCmd: func() client.Cmd {
@@ -329,7 +329,7 @@ func TestClientOverrideHost(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Host: "my-host",
 		},
 		NewCmd: func() client.Cmd {
@@ -339,7 +339,7 @@ func TestClientOverrideHost(t *testing.T) {
 
 	cmd.On("Run", "docker compose --host override-host foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		Host: "override-host",
 	})
 
@@ -352,7 +352,7 @@ func TestClientConfigTLS(t *testing.T) {
 	tls := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLS: &tls,
 		},
 		NewCmd: func() client.Cmd {
@@ -373,7 +373,7 @@ func TestClientOverrideTLS(t *testing.T) {
 	tls := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLS: &tls,
 		},
 		NewCmd: func() client.Cmd {
@@ -385,7 +385,7 @@ func TestClientOverrideTLS(t *testing.T) {
 
 	override := false
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		TLS: &override,
 	})
 
@@ -396,7 +396,7 @@ func TestClientConfigTLSCACert(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSCACert: "my-tls-ca-cert",
 		},
 		NewCmd: func() client.Cmd {
@@ -415,7 +415,7 @@ func TestClientOverrideTLSCACert(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSCACert: "my-tls-ca-cert",
 		},
 		NewCmd: func() client.Cmd {
@@ -425,7 +425,7 @@ func TestClientOverrideTLSCACert(t *testing.T) {
 
 	cmd.On("Run", "docker compose --tlscacert override-tls-ca-cert foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		TLSCACert: "override-tls-ca-cert",
 	})
 
@@ -436,7 +436,7 @@ func TestClientConfigTLSCert(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSCert: "my-tls-cert",
 		},
 		NewCmd: func() client.Cmd {
@@ -455,7 +455,7 @@ func TestClientOverrideTLSCert(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSCert: "my-tls-cert",
 		},
 		NewCmd: func() client.Cmd {
@@ -465,7 +465,7 @@ func TestClientOverrideTLSCert(t *testing.T) {
 
 	cmd.On("Run", "docker compose --tlscert override-tls-cert foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		TLSCert: "override-tls-cert",
 	})
 
@@ -476,7 +476,7 @@ func TestClientConfigTLSKey(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSKey: "my-tls-key",
 		},
 		NewCmd: func() client.Cmd {
@@ -495,7 +495,7 @@ func TestClientOverrideTLSKey(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSKey: "my-tls-key",
 		},
 		NewCmd: func() client.Cmd {
@@ -505,7 +505,7 @@ func TestClientOverrideTLSKey(t *testing.T) {
 
 	cmd.On("Run", "docker compose --tlskey override-tls-key foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		TLSKey: "override-tls-key",
 	})
 
@@ -518,7 +518,7 @@ func TestClientConfigTLSVerify(t *testing.T) {
 	tlsVerify := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSVerify: &tlsVerify,
 		},
 		NewCmd: func() client.Cmd {
@@ -539,7 +539,7 @@ func TestClientOverrideTLSVerify(t *testing.T) {
 	tlsVerify := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			TLSVerify: &tlsVerify,
 		},
 		NewCmd: func() client.Cmd {
@@ -551,7 +551,7 @@ func TestClientOverrideTLSVerify(t *testing.T) {
 
 	override := false
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		TLSVerify: &override,
 	})
 
@@ -562,7 +562,7 @@ func TestClientConfigProjectDirectory(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			ProjectDirectory: "my-project-directory",
 		},
 		NewCmd: func() client.Cmd {
@@ -581,7 +581,7 @@ func TestClientOverrideProjectDirectory(t *testing.T) {
 	cmd := &MockCmd{}
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			ProjectDirectory: "my-project-directory",
 		},
 		NewCmd: func() client.Cmd {
@@ -591,7 +591,7 @@ func TestClientOverrideProjectDirectory(t *testing.T) {
 
 	cmd.On("Run", "docker compose --project-directory override-project-directory foo bar")
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		ProjectDirectory: "override-project-directory",
 	})
 
@@ -604,7 +604,7 @@ func TestClientConfigCompatibility(t *testing.T) {
 	compatibility := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Compatibility: &compatibility,
 		},
 		NewCmd: func() client.Cmd {
@@ -625,7 +625,7 @@ func TestClientOverrideCompatibility(t *testing.T) {
 	compatibility := true
 
 	c := &client.ComposeClient{
-		Config: &client.Config{
+		GlobalOptions: &client.GlobalOptions{
 			Compatibility: &compatibility,
 		},
 		NewCmd: func() client.Cmd {
@@ -637,7 +637,7 @@ func TestClientOverrideCompatibility(t *testing.T) {
 
 	override := false
 
-	c.RunCommand("foo", "bar", nil, nil, &client.Config{
+	c.RunCommand("foo", "bar", nil, nil, &client.GlobalOptions{
 		Compatibility: &override,
 	})
 

@@ -121,6 +121,6 @@ func buildFlags(opts *BuildOptions) string {
 // stdout is written to the given io.Writer
 //
 // https://docs.docker.com/compose/reference/build/
-func (c *ComposeClient) Build(opts *BuildOptions, w io.Writer, overrides ...*Config) (<-chan error, error) {
+func (c *ComposeClient) Build(opts *BuildOptions, w io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {
 	return c.RunCommand("build", buildFlags(opts), w, nil, overrides...)
 }

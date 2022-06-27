@@ -734,7 +734,7 @@ func TestRunQuery(t *testing.T) {
 	}
 
 	cmd.On("SetStdout", mock.Anything)
-	cmd.On("Run", "docker compose foo bar --format json")
+	cmd.On("Run", "docker compose foo bar")
 
 	res, err := c.RunQuery("foo", "bar")
 

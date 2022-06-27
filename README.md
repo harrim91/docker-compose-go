@@ -16,7 +16,7 @@ import (
 func main() {
   // Create a new Docker Compose client
   // All commands issued with this client will include these config flags
-  compose := client.New(&client.Config{
+  compose := client.New(&client.GlobalOptions{
     Files: []string{
       "/path/to/docker-compose.yml",
     },
@@ -63,7 +63,7 @@ func main() {
       RemoveImages: client.RemoveImageFlagLocal,
     },
     os.Stdout,
-    &client.Config{
+    &client.GlobalOptions{
       Verbose: &verbose
     })
 

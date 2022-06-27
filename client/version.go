@@ -7,7 +7,7 @@ type Version struct {
 }
 
 func (c *ComposeClient) Version() (*Version, error) {
-	res, err := c.RunQuery("version", "")
+	res, err := c.RunQuery("version", "--format json")
 
 	if err != nil {
 		return nil, err

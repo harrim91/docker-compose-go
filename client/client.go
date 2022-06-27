@@ -246,14 +246,14 @@ func (client *ComposeClient) RunCommand(command, flags string, stdout, stderr io
 	return cmd.Run(strings.TrimSpace(fmt.Sprintf("docker compose%s %s %s", client.globalFlags(overrides...), command, flags)))
 }
 
-// RunQuery executes the given docker compose query, and returns the returned JSON byte array.
+// RunQuery executes the given docker compose query, and returns the stdout stream as a byte array.
 //
 // Users would normally use of one of the specific query methods (e.g. Version)
 func (client *ComposeClient) RunQuery(command, flags string, overrides ...*GlobalOptions) ([]byte, error) {
 	var stdout bytes.Buffer
 	var result []byte
 
-	ch, err := client.RunCommand(command, strings.TrimSpace(fmt.Sprintf("%s --format json", flags)), &stdout, nil, overrides...)
+	ch, err := client.RunCommand(command, flags, &stdout, nil, overrides...)
 
 	if err != nil {
 		return result, err

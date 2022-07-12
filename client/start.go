@@ -8,7 +8,7 @@ import (
 
 // StartOptions represents the command line options for the `docker compose start` command.
 //
-// https://docs.docker.com/compose/reference/build/
+// https://docs.docker.com/compose/reference/start/
 type StartOptions struct {
 	// Services to start
 	Services []string
@@ -30,7 +30,7 @@ func startFlags(opts *StartOptions) string {
 //
 // Start services
 //
-// stdout is written to the given io.Writer
+// stderr is written to the given io.Writer
 //
 // https://docs.docker.com/compose/reference/start/
 func (c *ComposeClient) Start(opts *StartOptions, w io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {

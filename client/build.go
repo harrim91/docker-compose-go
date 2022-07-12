@@ -23,31 +23,31 @@ type BuildOptions struct {
 	BuildArgs map[string]string
 
 	// Compress the build context using gzip.
-	Compress *bool
+	Compress bool
 
 	// Always remove intermediate containers.
-	ForceRemove *bool
+	ForceRemove bool
 
 	// Set memory limit for the build container.
 	Memory string
 
 	// Do not use cache when building the image.
-	NoCache *bool
+	NoCache bool
 
 	// Do not remove intermediate containers after a successful build.
-	NoRemove *bool
+	NoRemove bool
 
 	// Build images in parallel
-	Parallel *bool
+	Parallel bool
 
 	// Set type of progress output (`auto`, `plain`, `tty`).
 	Progress BuildProgressFlag
 
 	// Always attempt to pull a newer version of the image.
-	Pull *bool
+	Pull bool
 
 	// Don't print anything to `STDOUT`.
-	Quiet *bool
+	Quiet bool
 
 	// Services to build
 	Services []string
@@ -70,11 +70,11 @@ func buildFlags(opts *BuildOptions) string {
 			flags = fmt.Sprintf("%s --build-arg %s=%s", flags, key, opts.BuildArgs[key])
 		}
 
-		if opts.Compress != nil && *opts.Compress {
+		if opts.Compress {
 			flags = fmt.Sprintf("%s --compress", flags)
 		}
 
-		if opts.ForceRemove != nil && *opts.ForceRemove {
+		if opts.ForceRemove {
 			flags = fmt.Sprintf("%s --force-rm", flags)
 		}
 
@@ -82,15 +82,15 @@ func buildFlags(opts *BuildOptions) string {
 			flags = fmt.Sprintf("%s --memory %s", flags, opts.Memory)
 		}
 
-		if opts.NoCache != nil && *opts.NoCache {
+		if opts.NoCache {
 			flags = fmt.Sprintf("%s --no-cache", flags)
 		}
 
-		if opts.NoRemove != nil && *opts.NoRemove {
+		if opts.NoRemove {
 			flags = fmt.Sprintf("%s --no-rm", flags)
 		}
 
-		if opts.Parallel != nil && *opts.Parallel {
+		if opts.Parallel {
 			flags = fmt.Sprintf("%s --parallel", flags)
 		}
 
@@ -98,11 +98,11 @@ func buildFlags(opts *BuildOptions) string {
 			flags = fmt.Sprintf("%s --progress %s", flags, opts.Progress)
 		}
 
-		if opts.Pull != nil && *opts.Pull {
+		if opts.Pull {
 			flags = fmt.Sprintf("%s --pull", flags)
 		}
 
-		if opts.Quiet != nil && *opts.Quiet {
+		if opts.Quiet {
 			flags = fmt.Sprintf("%s --quiet", flags)
 		}
 
@@ -121,6 +121,6 @@ func buildFlags(opts *BuildOptions) string {
 // stdout is written to the given io.Writer
 //
 // https://docs.docker.com/compose/reference/build/
-func (c *ComposeClient) Build(opts *BuildOptions, w io.Writer, overrides ...*Config) (<-chan error, error) {
+func (c *ComposeClient) Build(opts *BuildOptions, w io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {
 	return c.RunCommand("build", buildFlags(opts), w, nil, overrides...)
 }

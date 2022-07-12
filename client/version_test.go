@@ -55,7 +55,6 @@ func TestVersion(t *testing.T) {
 	cmd := &mockVersionCmd{}
 
 	c := &client.ComposeClient{
-		Config: nil,
 		NewCmd: func() client.Cmd {
 			return cmd
 		},

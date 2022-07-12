@@ -55,10 +55,8 @@ func TestBuildCommandCompress(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --compress")
 
-	compress := true
-
 	c.Build(&client.BuildOptions{
-		Compress: &compress,
+		Compress: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -75,10 +73,8 @@ func TestBuildCommandForceRemove(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --force-rm")
 
-	forceRemove := true
-
 	c.Build(&client.BuildOptions{
-		ForceRemove: &forceRemove,
+		ForceRemove: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -113,10 +109,8 @@ func TestBuildCommandNoCache(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --no-cache")
 
-	noCache := true
-
 	c.Build(&client.BuildOptions{
-		NoCache: &noCache,
+		NoCache: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -133,10 +127,8 @@ func TestBuildCommandNoRemove(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --no-rm")
 
-	noRemove := true
-
 	c.Build(&client.BuildOptions{
-		NoRemove: &noRemove,
+		NoRemove: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -153,10 +145,8 @@ func TestBuildCommandParallel(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --parallel")
 
-	parallel := true
-
 	c.Build(&client.BuildOptions{
-		Parallel: &parallel,
+		Parallel: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -227,10 +217,8 @@ func TestBuildCommandPull(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --pull")
 
-	pull := true
-
 	c.Build(&client.BuildOptions{
-		Pull: &pull,
+		Pull: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)
@@ -247,10 +235,8 @@ func TestBuildCommandQuiet(t *testing.T) {
 
 	cmd.On("Run", "docker compose build --quiet")
 
-	quiet := true
-
 	c.Build(&client.BuildOptions{
-		Quiet: &quiet,
+		Quiet: true,
 	}, nil)
 
 	cmd.AssertExpectations(t)

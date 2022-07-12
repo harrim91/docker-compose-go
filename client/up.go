@@ -162,6 +162,6 @@ func upFlags(opts *UpOptions) string {
 // stderr is written to the given io.Writer
 //
 // https://docs.docker.com/compose/reference/up/
-func (client *ComposeClient) Up(opts *UpOptions, w io.Writer, overrides ...*Config) (<-chan error, error) {
+func (client *ComposeClient) Up(opts *UpOptions, w io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {
 	return client.RunCommand("up", upFlags(opts), nil, w, overrides...)
 }

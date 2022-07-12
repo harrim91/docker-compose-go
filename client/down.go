@@ -68,6 +68,6 @@ func downFlags(opts *DownOptions) string {
 // stderr is written to the given io.Writer
 //
 // https://docs.docker.com/compose/reference/down/
-func (client *ComposeClient) Down(opts *DownOptions, w io.Writer, overrides ...*Config) (<-chan error, error) {
+func (client *ComposeClient) Down(opts *DownOptions, w io.Writer, overrides ...*GlobalOptions) (<-chan error, error) {
 	return client.RunCommand("down", downFlags(opts), nil, w, overrides...)
 }

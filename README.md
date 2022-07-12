@@ -15,7 +15,7 @@ import (
 
 func main() {
   // Create a new Docker Compose client
-  // All commands issued with this client will include these config flags
+  // All commands issued with this client will include these global config flags
   compose := client.New(&client.GlobalOptions{
     Files: []string{
       "/path/to/docker-compose.yml",
@@ -31,9 +31,35 @@ func main() {
 
   log.Printf("docker compose version: %s", v.Version)
 
+  // Run `docker compose config`
+  // The global client config with the command specific options means
+  // this will run `docker compose --file /path/to/docker-compose.yml config`
+
+  config, err := compose.Config(&client.ConfigOptions{})
+
+  if err != nil {
+    log.Fatalln(err)
+  }
+
+  log.Printf("docker compose config: %s", string(config))
+
+  // Run `docker compose build`
+  // this will run `docker compose --file /path/to/docker-compose.yml build`
+  buildCh, err := compose.Build(nil, os.Stdout)
+
+  if err != nil {
+    log.Fatalln(err)
+  }
+
+  err = <-buildCh
+
+  if err != nil {
+    log.Fatalln(err)
+  }
+
   // Run `docker compose up`
   // Merging the global client config with the command specific options means
-  /// this will run `docker compose --file /path/to/docker-compose.yml up --detach`
+  // this will run `docker compose --file /path/to/docker-compose.yml up --detach`
   upCh, err := compose.Up(&client.UpOptions{
     Detach: true,
   }, nil)

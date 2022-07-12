@@ -15,7 +15,7 @@ const (
 	BuildProgressFlagTTY   BuildProgressFlag = "tty"
 )
 
-// UpOptions represents the command line options for the `docker compose build` command.
+// BuildOptions represents the command line options for the `docker compose build` command.
 //
 // https://docs.docker.com/compose/reference/build/
 type BuildOptions struct {
